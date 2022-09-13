@@ -131,7 +131,7 @@ for k = 1:4
     
     % re-initialise and invert the full (first) model
     %----------------------------------------------------------------------
-    try, DCM  = spm_dcm_fit(DCM); catch, break;  end
+    try, DCM  = spm_dcm_fit(DCM, 1); catch, break;  end
     
      
     % empirical Bayes - over subjects

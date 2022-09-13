@@ -21,7 +21,7 @@ function [P]   = spm_dcm_fit(P,use_parfor)
 % Karl Friston
 % $Id: spm_dcm_fit.m 7755 2019-12-16 13:19:28Z spm $
 
-if nargin < 2, use_parfor = false; end
+if nargin < 2, use_parfor = true; end
 
 % get filenames and set up
 %--------------------------------------------------------------------------
