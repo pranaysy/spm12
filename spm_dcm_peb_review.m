@@ -299,7 +299,7 @@ if display_connectivity
     sel_field = fields{sel_field_idx};
     
     % Get the size of this field's matrix in the DCM
-    [i,j,k] = size(eval(['DCM{1}.Ep.' sel_field]));
+    [i,j,k] = size(eval(['DCM{1}.' sel_field]));
     
     % Reshape PEB parameters
     Eq = zeros(i,j,k);    
