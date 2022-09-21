@@ -299,7 +299,11 @@ if display_connectivity
     sel_field = fields{sel_field_idx};
     
     % Get the size of this field's matrix in the DCM
-    [i,j,k] = size(eval(['DCM{1}.' sel_field]));
+    if startsWith(spm_dcm_identify(DCM{1,1}), 'fMRI')
+        [i,j,k] = size(eval(['DCM{1}.' lower(sel_field)]));
+    else
+        [i,j,k] = size(eval(['DCM{1}.' sel_field]));
+    end
     
     % Reshape PEB parameters
     Eq = zeros(i,j,k);    
