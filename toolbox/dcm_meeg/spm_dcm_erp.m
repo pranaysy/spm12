@@ -401,17 +401,17 @@ if strcmp(M.dipfit.type,'IMG') && DATA
 
     % append DCM results and save in structure
     %----------------------------------------------------------------------
-    D.inv{end + 1}      = D.inv{val};
-    D.inv{end}.date     = date;
-    [dummy,fname]       = fileparts(DCM.name);
-    D.inv{end}.comment  = {fname};
-    D.inv{end}.DCMfile  = DCM.name;
-    D.inv{end}.inverse  = inverse;
-    D.val               = length(D.inv);
-    try
-        D.inv{end}      = rmfield(D.inv{end},'contrast');
-    end
-    save(D);
+    %D.inv{end + 1}      = D.inv{val};
+    %D.inv{end}.date     = date;
+    %[dummy,fname]       = fileparts(DCM.name);
+    %D.inv{end}.comment  = {fname};
+    %D.inv{end}.DCMfile  = DCM.name;
+    %D.inv{end}.inverse  = inverse;
+    %D.val               = length(D.inv);
+    %try
+    %    D.inv{end}      = rmfield(D.inv{end},'contrast');
+    %end
+    %save(D);
 end
 
 % remove dipfit stucture to save memory
