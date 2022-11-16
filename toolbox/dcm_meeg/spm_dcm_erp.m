@@ -31,8 +31,8 @@ function [DCM,dipfit] = spm_dcm_erp(DCM)
 %        memory - and is offered as an output argument if needed
 %
 % The scheme can be initialised with parameters for the neuronal model
-% and spatial (observer) model by specifying the fields DCM.P and DCM.Q, 
-% respectively. If previous priors (DCM.M.pE and pC or DCM.M.gE and gC or 
+% and spatial (observer) model by specifying the fields DCM.P and DCM.Q,
+% respectively. If previous priors (DCM.M.pE and pC or DCM.M.gE and gC or
 % DCM.M.hE and hC) are specified, they will be used. Explicit priors can be
 % useful for Bayesian parameter averaging - but would not normally be
 % called upon - because prior constraints are specified by DCM.A, DCM.B,...
@@ -61,9 +61,10 @@ try, lock     = DCM.options.lock;     catch, lock      = 0;           end
 try, multC    = DCM.options.multiC;   catch, multC     = 0;           end
 try, symm     = DCM.options.symmetry; catch, symm      = 0;           end
 try, CVA      = DCM.options.CVA;      catch, CVA       = 0;           end
-try, Nmax     = DCM.options.Nmax;     catch, Nmax      = 64;          end
+% try, Nmax     = DCM.options.Nmax;     catch, Nmax      = 64;          end
 try, DATA     = DCM.options.DATA;     catch, DATA      = 1;           end
-try, Nmax     = DCM.M.Nmax;           catch, Nmax      = Nmax;        end
+%try, Nmax     = DCM.M.Nmax;           catch, Nmax      = Nmax;        end
+Nmax     = 512; DCM.options.Nmax = 512; % Increase default number of steps
 
 
 % symmetry contraints for ECD models only
@@ -242,7 +243,7 @@ M.Nmax = Nmax;
 % re-intialise states
 %--------------------------------------------------------------------------
 M.x    = spm_dcm_neural_x(pE,M);
-    
+
 
 % EM: inversion
 %==========================================================================
