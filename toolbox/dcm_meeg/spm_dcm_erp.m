@@ -246,7 +246,7 @@ M.x    = spm_dcm_neural_x(pE,M);
 
 % EM: inversion
 %==========================================================================
-[Qp,Qg,Cp,Cg,Ce,F,LE] = spm_nlsi_N(M,xU,xY);
+[Qp,Qg,Cp,Cg,Ce,F,LE, fitting] = spm_nlsi_N(M,xU,xY);
 
 
 % Data ID
@@ -319,6 +319,9 @@ DCM.options.lock     = lock;
 DCM.options.symm     = symm;
 DCM.options.analysis = 'ERP';
 
+
+% Estimates from fitting trajectory
+DCM.fitting = fitting;
 
 % store estimates in D
 %--------------------------------------------------------------------------
