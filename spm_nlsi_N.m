@@ -1,4 +1,4 @@
-function [Ep,Eg,Cp,Cg,S,F,L] = spm_nlsi_N(M,U,Y)
+function [Ep,Eg,Cp,Cg,S,F,L,fitting] = spm_nlsi_N(M,U,Y)
 % Bayesian inversion of a linear-nonlinear model of the form F(p)*G(g)'
 % FORMAT [Ep,Eg,Cp,Cg,S,F,L]= spm_nlsi_N(M,U,Y)
 %
@@ -318,7 +318,14 @@ dgdg  = zeros(ny,ng);
 dFdh  = zeros(nh,1);
 dFdhh = zeros(nh,nh);
 
- 
+% Initialize container for storing fitting steps
+%==========================================================================
+fitting = [];
+fitting.Ep = {Ep};
+fitting.Eg = {Eg};
+fitting.F = {0};
+fitting.L = {0};
+
 % Optimize p: parameters of f(x,u,p)
 %==========================================================================
 EP     = [];
@@ -474,6 +481,13 @@ for ip = 1:M.Nmax
     L(8) = spm_logdet(ibC*Cb)/2;     % complexity
     L(9) = spm_logdet(ihC*Ch)/2;     % complexity
     F    = sum(L);
+    
+    % Checkpoint: Store all estimates at this stage
+    %----------------------------------------------------------------------
+    fitting.Ep{end + 1} = Ep;
+    fitting.Eg{end + 1} = Eg;
+    fitting.F{end + 1} = F;
+    fitting.L{end + 1} = L;
     
     % record increases and reference log-evidence for reporting
     %----------------------------------------------------------------------
