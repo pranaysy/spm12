@@ -414,7 +414,7 @@ end
 % remove dipfit stucture to save memory
 %--------------------------------------------------------------------------
 dipfit = DCM.M.dipfit;
-DCM.M  = rmfield(DCM.M,'dipfit');
+%DCM.M  = rmfield(DCM.M,'dipfit');
 
 % and save
 %--------------------------------------------------------------------------
