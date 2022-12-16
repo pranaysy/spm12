@@ -539,6 +539,8 @@ switch lower(S.task)
         
         if isfield(ev_bids,'trial_type')
             trial_type = 'trial_type';
+        elseif isfield(ev_bids,'event_type')
+            trial_type = 'event_type';
         else
             % Compatibility with old BIDS-formatted datasets
             trial_type = 'stim_type';
