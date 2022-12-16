@@ -1,4 +1,4 @@
-function [D] = spm_eeg_inv_results(D)
+function [D] = spm_eeg_inv_results(D, val)
 % Contrast of evoked responses and power for an MEG-EEG model
 % FORMAT [D] = spm_eeg_inv_results(D)
 % Requires:
@@ -20,10 +20,14 @@ function [D] = spm_eeg_inv_results(D)
 %-MEEG data structure
 %==========================================================================
 try
-    model = D.inv{D.val};
+    model = D.inv{val};
 catch
-    model = D.inv{end};
-    D.val = numel(D.inv);
+    try
+        model = D.inv{D.val};
+    catch
+        model = D.inv{end};
+        D.val = numel(D.inv);
+    end
 end
 
 %-Defaults
@@ -224,7 +228,7 @@ for w = 1:Nw
     
 end
 
-D.inv{D.val}         = model;
+D.inv{val}         = model;
 
 fprintf('%s%30s\n',repmat(sprintf('\b'),1,30),'...done');               %-#
 
