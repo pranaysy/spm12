@@ -205,6 +205,39 @@ for i = 1:numel(D.inv{val}.forward)
             vol                        = ft_prepare_headmodel(cfg, headshape);
             modality                   = 'MEG';
             
+        case 'OpenMEEG BEM MEG Test'
+            vol        = [];
+            vol.cond   = [0.3300 0.0041 0.3300];
+            vol.source = 1; % index of source compartment
+            vol.skin   = 3; % index of skin surface
+            % brain
+            vol.bnd(1) = export(gifti(mesh.tess_iskull), 'ft');
+            % skull
+            vol.bnd(2) = export(gifti(mesh.tess_oskull), 'ft');
+            % skin
+            vol.bnd(3) = export(gifti(mesh.tess_scalp),  'ft');
+            
+            cfg                         = [];
+            cfg.feedback               = 'yes';
+            cfg.showcallinfo           = 'no'; 
+            cfg.grad                   = sens; 
+            cfg.method                 = 'openmeeg';
+            cfg.siunits                = 'yes';             
+             
+            vol                        = ft_prepare_headmodel(cfg, vol);
+            
+            cfg                        = [];
+            cfg.vol                    = vol;
+            cfg.grid.pos               = mesh.tess_ctx.vert;          
+            cfg.moveinward             = 6e-3; % smaller shift might suffice for OpenMEEG
+            gridcorrect                = ft_prepare_sourcemodel(cfg);
+            
+            mesh_correction            = rmfield(cfg, {'vol', 'grid'});
+            
+            mesh.tess_ctx.vert         = gridcorrect.pos;            
+            
+            modality = 'MEG';
+            
         otherwise
             error('Unsupported volume model type.');
     end
