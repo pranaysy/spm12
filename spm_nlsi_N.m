@@ -320,11 +320,12 @@ dFdhh = zeros(nh,nh);
 
 % Initialize container for storing fitting steps
 %==========================================================================
-fitting = [];
-fitting.Ep = {Ep};
-fitting.Eg = {Eg};
-fitting.F = {0};
-fitting.L = {0};
+fitting         = [];
+fitting.Ep      = {Ep};
+fitting.Eg      = {Eg};
+fitting.F       = {0};
+fitting.L       = {0};
+fitting.conv    = false;
 
 % Optimize p: parameters of f(x,u,p)
 %==========================================================================
@@ -613,7 +614,7 @@ for ip = 1:M.Nmax
     ig  = max([0 ig]);
     fprintf('%-6s: %-2i (%i,%i) %4s %-6.3e %6s %6.3e ',str,ip,ig,ih,'F:',full(C.F - F0),'dF predicted:',full(dF))
     criterion = [(dF < 1e-1) criterion(1:end - 1)];
-    if all(criterion), fprintf(' convergence\n'), break, end
+    if all(criterion), fprintf(' convergence\n'), fitting.conv = true; break, end
     
 end
 if exist('Fsi', 'var')
