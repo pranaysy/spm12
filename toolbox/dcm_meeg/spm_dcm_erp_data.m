@@ -12,6 +12,8 @@ function DCM = spm_dcm_erp_data(DCM,ERP)
 %    DCM.options.D       - Down-sampling
 %    DCM.options.han     - Hanning
 %    DCM.options.h       - Order of (DCT) detrending
+%    DCM.options.tukey   - Tukey window
+%    DCM.options.tukeyp  - Tukey window parameter
 %
 % sets
 %    DCM.xY.modality - 'MEG','EEG' or 'LFP'
@@ -52,6 +54,8 @@ end
 if nargin < 2, ERP = 1;                         end
 try, han  = DCM.options.han; catch, han   = 0;  end
 try, h    = DCM.options.h;   catch, h     = 1;  end
+try, tukey  = DCM.options.tukey; catch, tukey   = 0;  end
+try, tukeyp  = DCM.options.tukeyp; catch, tukeyp   = 0;  end
 try
     DT    = DCM.options.D;
 catch
@@ -176,6 +180,16 @@ if han
         R = R*sparse(diag(spm_hanning(Ns)))*R;
     else
         R = sparse(diag(spm_hanning(Ns)))*R;
+    end
+end
+
+% tukey win (omit second residualization for very long time-series)
+%--------------------------------------------------------------------------
+if tukey
+    if Ns < 2048
+        R = R*sparse(diag(tukeywin(Ns, tukeyp)))*R;
+    else
+        R = sparse(diag(tukeywin(Ns, tukeyp)))*R;
     end
 end
  
