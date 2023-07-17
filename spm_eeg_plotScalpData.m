@@ -126,7 +126,8 @@ try
     end
 end
 caxis(ParentAxes,clim);
-col = jet;
+% col = jet;
+col = parula;
 col(1,:) = COLOR;
 colormap(ParentAxes,col)
 
