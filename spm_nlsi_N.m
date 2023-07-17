@@ -325,11 +325,21 @@ fitting.Ep = {Ep};
 fitting.Eg = {Eg};
 fitting.F = {0};
 fitting.L = {0};
+fitting.hyperparameters = {};
 
 % Optimize p: parameters of f(x,u,p)
 %==========================================================================
 EP     = [];
 for ip = 1:M.Nmax
+    
+    % Store and track hyperparams
+    container_ = zeros([M.Gmax, M.Hmax]);
+    hyperparameters = [];
+    hyperparameters.h = container_;
+    hyperparameters.eh = container_;
+    hyperparameters.dh = container_;
+    hyperparameters.dFdh = container_;
+    hyperparameters.dFdhh = container_;
  
     % time
     %----------------------------------------------------------------------  
@@ -432,7 +442,14 @@ for ip = 1:M.Nmax
             %--------------------------------------------------------------
             dh    = spm_dx(dFdhh,dFdh,{4});
             h     = h + min(max(dh,-2),2);
- 
+            
+            % Store estimates for diagnostics
+            hyperparameters.h(ig,ih) = h;
+            hyperparameters.eh(ig,ih) = eh;
+            hyperparameters.dh(ig,ih) = dh;
+            hyperparameters.dFdh(ig,ih) = dFdh;
+            hyperparameters.dFdhh(ig,ih) = dFdhh;
+            
             % convergence
             %--------------------------------------------------------------
             if dFdh'*dh < exp(-2), break, end
@@ -488,6 +505,7 @@ for ip = 1:M.Nmax
     fitting.Eg{end + 1} = Eg;
     fitting.F{end + 1} = F;
     fitting.L{end + 1} = L;
+    fitting.hyperparameters{end + 1} = hyperparameters;
     
     % record increases and reference log-evidence for reporting
     %----------------------------------------------------------------------
