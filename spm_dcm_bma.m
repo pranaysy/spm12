@@ -295,7 +295,7 @@ else % Use an FFX
 
     for occ = 1:Nocc,
         m = post_ind(occ);
-        fprintf('\tModel %d, p(m|Y)=%1.2f\n',m,post(m));
+        fprintf('\tModel %d, p(m|Y)=%1.2f\n',m,full(post(m)));
     end
 
     % Renormalise post prob to Occam group
