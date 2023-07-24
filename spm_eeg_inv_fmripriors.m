@@ -1,4 +1,4 @@
-function D = spm_eeg_inv_fmripriors(S)
+function D = spm_eeg_inv_fmripriors(S, val)
 % Generate fMRI priors for the M/EEG source reconstruction
 % FORMAT D = spm_eeg_inv_fmripriors(S)
 %
@@ -42,7 +42,10 @@ catch
     S.D = D;
 end
 
-[D, val] = spm_eeg_inv_check(D);
+[D, val_] = spm_eeg_inv_check(D);
+if ~val
+    val = val_;
+end
 
 %-Input parameters
 %--------------------------------------------------------------------------
